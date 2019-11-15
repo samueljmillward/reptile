@@ -32,5 +32,19 @@ describe('aging function', () => {
         const reptile = new Reptile('Iguana');
         reptile.growUp();
         expect(reptile.hunger).toEqual(5);
-    })
+    });
+});
+describe('walking function', () => {
+    it('increments fitness by 4', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.fitness = 4
+        reptile.walk();
+        expect(reptile.fitness).toEqual(8);
+    });
+    it('fitness cannot increase over 10', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.growUp();
+        reptile.walk();
+        expect(reptile.fitness).toEqual(10);
+    });
 });
