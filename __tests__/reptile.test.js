@@ -42,9 +42,10 @@ describe('aging function', () => {
     it('throws an error if the reptile is not alive', () => {
         const reptile = new Reptile('Iguana');
         reptile.hunger = 10;
-        expect(() => reptile.feed()).toThrow('Catastrophic organ failure');
+        expect(() => reptile.feed()).toThrow('DEATH: Catastrophic organ failure');
     });
 });
+
 describe('hunting function', () => {
     it('increments fitness by 4', () => {
         const reptile = new Reptile('Iguana');
@@ -61,7 +62,7 @@ describe('hunting function', () => {
     it('throws an error if the reptile is not alive', () => {
         const reptile = new Reptile('Iguana');
         reptile.fitness = 0;
-        expect(() => reptile.feed()).toThrow('Catastrophic organ failure');
+        expect(() => reptile.feed()).toThrow('DEATH: Catastrophic organ failure');
     });
 });
 
@@ -84,9 +85,10 @@ describe('feeding function', () => {
     it('throws an error if the reptile is not alive', () => {
         const reptile = new Reptile('Iguana');
         reptile.age = 30;
-        expect(() => reptile.feed()).toThrow('Catastrophic organ failure');
+        expect(() => reptile.feed()).toThrow('DEATH: Catastrophic organ failure');
     });
 });
+
 describe('basking function', () => {
     it('returns reptile body heat', () => {
         const reptile = new Reptile('Iguana');
@@ -105,14 +107,16 @@ describe('basking function', () => {
         const reptile = new Reptile('Iguana');
         reptile.bask();
         reptile.bask();
-        reptile.bask();
         expect(reptile.bodyHeat).toEqual(100);
     });
-    /*it('throws an error if the reptile is not alive', () => {
+    it('throws an error if the reptile is not alive', () => {
         const reptile = new Reptile('Iguana');
-        reptile.
-    });*/
+        reptile.bask();
+        reptile.bask();
+        expect(() => reptile.bask()).toThrow('DEATH: Catastrophic organ failure');
+    });
 });
+
 describe('assessHealth function', () => {
     it('returns reptile status', () => {
         const reptile = new Reptile('Iguana');

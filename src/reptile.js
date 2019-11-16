@@ -12,16 +12,22 @@ function Reptile(species) {
 };
 
 Reptile.prototype.isAlive = function () {
-    return this.age < 30 && this.hunger < 10 && this.fitness > 0;
+    return this.age < 30 && this.hunger < 10 && this.fitness > 0 && this.bodyHeat < 100;
 }
 
 Reptile.prototype.growUp = function () {
+    if (!this.isAlive()) {
+        throw new Error('DEATH: Catastrophic organ failure');
+    };
     this.age += 1;
     this.fitness -= 3;
     this.hunger += 5;
 };
 
 Reptile.prototype.hunt = function () {
+    if (!this.isAlive()) {
+        throw new Error('DEATH: Catastrophic organ failure');
+    };
     if ((this.fitness + 4) <= MAXIMUM_FITNESS) {
         this.fitness += 4;
     } else {
@@ -34,8 +40,8 @@ Reptile.prototype.hunt = function () {
 
 Reptile.prototype.feed = function () {
     if (!this.isAlive()) {
-        throw new Error('Catastrophic organ failure');
-    }
+        throw new Error('DEATH: Catastrophic organ failure');
+    };
     this.hunger -= 3;
     if (this.hunger < MINIMUM_HUNGER) {
         this.hunger = MINIMUM_HUNGER
@@ -44,6 +50,10 @@ Reptile.prototype.feed = function () {
 };
 
 Reptile.prototype.bask = function () {
+    if (!this.isAlive()) {
+        console.log(this.bodyHeat)
+        throw new Error('DEATH: Catastrophic organ failure');
+    };
     this.bodyHeat += 30;
     if (this.bodyHeat < MINIMUM_BODYHEAT) {
         this.bodyHeat = MINIMUM_BODYHEAT;
@@ -52,6 +62,7 @@ Reptile.prototype.bask = function () {
         this.bodyHeat = MAXIMUM_BODYHEAT;
     };
 };
+
 Reptile.prototype.assessHealth = function () {
     if (this.fitness <= 3 && this.hunger >= 5) {
         return "Condition critical";
