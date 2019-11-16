@@ -96,11 +96,22 @@ describe('basking function', () => {
 
     it('body heat cannot decrease below 0', () => {
         const reptile = new Reptile('Iguana');
-        reptile.hunt()
-        reptile.hunt()
-        reptile.hunt()
+        reptile.hunt();
+        reptile.hunt();
+        reptile.hunt();
         expect(reptile.bodyHeat).toEqual(0);
     });
+    it('body heat cannot increase above 100', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.bask();
+        reptile.bask();
+        reptile.bask();
+        expect(reptile.bodyHeat).toEqual(100);
+    });
+    /*it('throws an error if the reptile is not alive', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.
+    });*/
 });
 describe('assessHealth function', () => {
     it('returns reptile status', () => {
@@ -133,5 +144,15 @@ describe('assessHealth function', () => {
         reptile.fitness = 1
         reptile.assessHealth();
         expect(reptile.assessHealth()).toBe("I must hunt")
+    });
+    it('returns reptile status', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.bodyHeat = 90
+        expect(reptile.assessHealth()).toBe("Approaching maximum body temperature")
+    });
+    it('returns reptile status', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.bodyHeat = 10
+        expect(reptile.assessHealth()).toBe("Approaching minimum body temperature")
     });
 });

@@ -1,9 +1,10 @@
 const MAXIMUM_FITNESS = 10;
 const MINIMUM_HUNGER = 0;
 const MINIMUM_BODYHEAT = 0;
+const MAXIMUM_BODYHEAT = 100;
 
 function Reptile(species) {
-    this.species = species
+    this.species = species;
     this.age = 0;
     this.hunger = MINIMUM_HUNGER;
     this.fitness = MAXIMUM_FITNESS;
@@ -26,11 +27,13 @@ Reptile.prototype.hunt = function () {
     } else {
         this.fitness = MAXIMUM_FITNESS;
     };
-    this.bodyHeat -= 20;
+    if (this.bodyHeat >= 20) {
+        this.bodyHeat -= 20;
+    }
 };
 
 Reptile.prototype.feed = function () {
-    if (!this.isAlive) {
+    if (!this.isAlive()) {
         throw new Error('Catastrophic organ failure');
     }
     this.hunger -= 3;
@@ -42,11 +45,13 @@ Reptile.prototype.feed = function () {
 
 Reptile.prototype.bask = function () {
     this.bodyHeat += 30;
-    if (this.bodyHeat < 0) {
-        this.bodyHeat = 0
+    if (this.bodyHeat < MINIMUM_BODYHEAT) {
+        this.bodyHeat = MINIMUM_BODYHEAT;
+    };
+    if (this.bodyHeat > MAXIMUM_BODYHEAT) {
+        this.bodyHeat = MAXIMUM_BODYHEAT;
     };
 };
-
 Reptile.prototype.assessHealth = function () {
     if (this.fitness <= 3 && this.hunger >= 5) {
         return "Condition critical";
@@ -56,6 +61,12 @@ Reptile.prototype.assessHealth = function () {
     };
     if (this.hunger >= 5) {
         return "I must feed";
+    };
+    if (this.bodyHeat >= 90) {
+        return "Approaching maximum body temperature";
+    };
+    if (this.bodyHeat <= 10) {
+        return "Approaching minimum body temperature";
     } else {
         return "Condition optimal. Recommend returning to safety";
     };
