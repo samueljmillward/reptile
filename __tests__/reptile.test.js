@@ -41,7 +41,7 @@ describe('aging function', () => {
     });
     it('throws an error if the reptile is not alive', () => {
         const reptile = new Reptile('Iguana');
-        reptile.hunger = 10;
+        reptile.age = 30;
         expect(() => reptile.feed()).toThrow('DEATH: Catastrophic organ failure');
     });
 });
@@ -84,7 +84,7 @@ describe('feeding function', () => {
 
     it('throws an error if the reptile is not alive', () => {
         const reptile = new Reptile('Iguana');
-        reptile.age = 30;
+        reptile.hunger = 10;
         expect(() => reptile.feed()).toThrow('DEATH: Catastrophic organ failure');
     });
 });
@@ -160,3 +160,31 @@ describe('assessHealth function', () => {
         expect(reptile.assessHealth()).toBe("Approaching minimum body temperature")
     });
 });
+
+describe ('calcium levels', () => {
+    it('initial calcium = 0', () => {
+        const reptile = new Reptile('Iguana');
+        expect(reptile.calciumLevel).toEqual(30)
+    });
+    it('feeding increases calcium by 3', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.feed()
+        reptile.feed()
+        expect(reptile.calciumLevel).toEqual(36)
+    });
+    it('calcium levels cannot increase over 100', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.calciumLevel = 99
+        reptile.feed()
+        expect(reptile.calciumLevel).toEqual(100);
+    });
+    it('calcium levels cannot decrease below 0', () => {
+        const reptile = new Reptile('Iguana');
+        reptile.calciumLevel = 5
+        reptile.growUp()
+        expect(reptile.calciumLevel).toEqual(0);
+    });
+});
+//describe ('create offspring function', () => {
+    
+

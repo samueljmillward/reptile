@@ -2,6 +2,8 @@ const MAXIMUM_FITNESS = 10;
 const MINIMUM_HUNGER = 0;
 const MINIMUM_BODYHEAT = 0;
 const MAXIMUM_BODYHEAT = 100;
+const MAXIMUM_CALCIUM = 100;
+const MINIMUM_CALCIUM = 0;
 
 function Reptile(species) {
     this.species = species;
@@ -9,10 +11,15 @@ function Reptile(species) {
     this.hunger = MINIMUM_HUNGER;
     this.fitness = MAXIMUM_FITNESS;
     this.bodyHeat = 40;
+    this.calciumLevel = 30;
 };
 
 Reptile.prototype.isAlive = function () {
-    return this.age < 30 && this.hunger < 10 && this.fitness > 0 && this.bodyHeat < 100;
+    return this.age < 30 
+    && this.hunger < 10 
+    && this.fitness > 0 
+    && this.bodyHeat < 100 
+    && this.calciumLevel > 0;
 }
 
 Reptile.prototype.growUp = function () {
@@ -22,6 +29,10 @@ Reptile.prototype.growUp = function () {
     this.age += 1;
     this.fitness -= 3;
     this.hunger += 5;
+    this.calciumLevel -= 20;
+    if (this.calciumLevel < MINIMUM_CALCIUM) {
+        this.calciumLevel = MINIMUM_CALCIUM;
+    }; 
 };
 
 Reptile.prototype.hunt = function () {
@@ -43,15 +54,19 @@ Reptile.prototype.feed = function () {
         throw new Error('DEATH: Catastrophic organ failure');
     };
     this.hunger -= 3;
+    this.bodyHeat -= 10;
+    this.calciumLevel += 3;
     if (this.hunger < MINIMUM_HUNGER) {
         this.hunger = MINIMUM_HUNGER
     };
-    this.bodyHeat -= 10;
+    if (this.calciumLevel > MAXIMUM_CALCIUM) {
+        this.calciumLevel = MAXIMUM_CALCIUM;
+     };
+    
 };
 
 Reptile.prototype.bask = function () {
     if (!this.isAlive()) {
-        console.log(this.bodyHeat)
         throw new Error('DEATH: Catastrophic organ failure');
     };
     this.bodyHeat += 30;
@@ -61,6 +76,13 @@ Reptile.prototype.bask = function () {
     if (this.bodyHeat > MAXIMUM_BODYHEAT) {
         this.bodyHeat = MAXIMUM_BODYHEAT;
     };
+};
+
+Reptile.prototype.nutrition = function () {
+    if (!this.isAlive()) {
+        throw new Error('DEATH: Catastrophic organ failure');
+    };
+    
 };
 
 Reptile.prototype.assessHealth = function () {
